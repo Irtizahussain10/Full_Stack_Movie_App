@@ -166,7 +166,8 @@ module.exports.getMoviesByID = async (id) => {
             cast: 1,
             genres: 1,
             writers: 1,
-            comments: 1
+            comments: 1,
+            runtime: 1
         };
         let cursor = await movies
             .aggregate(pipeline)

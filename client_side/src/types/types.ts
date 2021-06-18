@@ -1,10 +1,10 @@
 export interface moviesByPageNumber {
-    _id: string,
-    title: string,
-    cast: string[],
-    rated: string,
-    year: number,
-    imdb: {
+    _id?: string,
+    title?: string,
+    cast?: string[],
+    rated?: string,
+    year?: number,
+    imdb?: {
         rating: number,
         votes: number,
         id: number
@@ -13,18 +13,18 @@ export interface moviesByPageNumber {
 };
 
 export interface moviesByObjectId {
-    title: string,
-    year: number,
-    rated: number,
-    directors: string[],
-    fullplot: string,
-    imdb: {
+    title?: string,
+    year?: number,
+    rated?: number,
+    directors?: string[],
+    fullplot?: string,
+    imdb?: {
         rating: number,
         votes: number,
         id: number
     },
-    metacritic: number,
-    tomatoes: {
+    metacritic?: number,
+    tomatoes?: {
         website: string,
         viewer: {
             rating: number,
@@ -43,10 +43,11 @@ export interface moviesByObjectId {
         fresh: number
     },
     poster?: string,
-    cast: string[],
-    genres: string[],
-    writers: string[],
-    comments: comments[]
+    runtime: number,
+    cast?: string[],
+    genres?: string[],
+    writers?: string[],
+    comments?: comments[]
 };
 
 interface comments {

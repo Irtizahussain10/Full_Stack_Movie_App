@@ -41,13 +41,14 @@ function MoviesList() {
         return (
             <div>
                 {data.map((element, index) => {
-                    element.cast?.join(', ');
                     return <Link to={`/${element._id}`} key={index} >
-                        {element.poster ? <img src={element.poster} alt=''></img> : <p>Poster Not Available</p>}
-                        <h4>{element.title}</h4>
-                        <h5><span>{element.year}</span><span>{element.rated}</span></h5>
-                        <h5>{element.cast}</h5>
-                        <h6>{element.imdb.rating}</h6>
+                        {element.poster ? <img src={element.poster} alt=''></img> : <div>Poster Not Available</div>}
+                        {<h4>{element.title}</h4>}
+                        <h5><span>{element.year} </span><span>{element.rated}</span></h5>
+                        <h5>{element.cast?.map((actor, key) => {
+                            return <span key={key}>{actor} </span>
+                        })}</h5>
+                        <h6>{element.imdb?.rating}</h6>
                     </Link>
                 })}
                 <button onClick={handleClickPrevious}>Previous</button>

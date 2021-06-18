@@ -14,7 +14,7 @@ function SingleMovie() {
 
     useEffect(() => {
         moviesById(id)
-            .then((res) => { setData(res); console.log(data) })
+            .then((res) => { setData(res); })
             .catch(console.log);
     }, []);
 
@@ -23,7 +23,48 @@ function SingleMovie() {
     } else {
         return (
             <div>
-                <p>{data.fullplot}</p>
+                <div>
+                    {data.title ? <h4>{data.title}</h4> : null}
+                    <h5>{data.year ? <span>{data.year} </span> : null}{data.rated ? <span>{data.rated}</span> : null}</h5>
+                    {data.directors ? data.directors.map((director, index) => {
+                        return <p key={index}>{director}</p>
+                    }) : null}
+                    {data.runtime ? <h6>Runtime: {Math.floor(data.runtime / 60)} hr {data.runtime % 60} min</h6> : null}
+                    <p>{data.fullplot}</p>
+                    {data.imdb ? <p>
+                        <strong>Imdb rating: {data.imdb.rating} (from {data.imdb.votes} reviews)</strong>
+                    </p> : null}
+                    {data.metacritic ? <p>
+                        <strong>Metacritic Rating: {data.metacritic}</strong>
+                    </p> : null}
+                    {data.tomatoes ? <p>
+                        <strong>Tomatoes Rating: {data.tomatoes.viewer.rating} (from {data.tomatoes.viewer.numReviews} reviews)</strong>
+                    </p> : null}
+                </div>
+                <div>
+                    {data.poster ? <img src={data.poster} alt='Image not available' /> : <div>Image not found</div>}
+                    {data.genres ? <div>
+                        <p><strong>Genres</strong></p>
+                        {data.genres.map((genre, index) => {
+                            return <span key={index}>{genre} </span>
+                        })}
+                    </div> : null}
+                    {data.cast ? <div><p><strong>Cast</strong></p>
+                        {data.cast.map((name, index) => {
+                            return <span key={index}>{name} </span>
+                        })}</div> : null}
+                    {data.writers ? <div><p><strong>Writers</strong></p>
+                        {data.writers.map((name, index) => {
+                            return <span key={index}>{name} </span>
+                        })}</div> : null}
+                    <p><strong>Comments</strong></p>
+                    {data.comments ? data.comments.map((comment, index) => {
+                        return (<div key={index}>
+                            <p>{comment.name}</p>
+                            <p>{comment.text}</p>
+                        </div>)
+                    }) : <p>Not</p>}
+                </div>
             </div>
         );
     };
