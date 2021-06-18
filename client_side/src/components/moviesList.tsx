@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { moviesByPage } from '../services/moviesApi';
 import { moviesByPageNumber } from '../types/types';
 
@@ -41,13 +42,13 @@ function MoviesList() {
             <div>
                 {data.map((element, index) => {
                     element.cast?.join(', ');
-                    return <div key={index}>
+                    return <Link to={`/${element._id}`} key={index} >
                         {element.poster ? <img src={element.poster} alt=''></img> : <p>Poster Not Available</p>}
                         <h4>{element.title}</h4>
                         <h5><span>{element.year}</span><span>{element.rated}</span></h5>
                         <h5>{element.cast}</h5>
                         <h6>{element.imdb.rating}</h6>
-                    </div>
+                    </Link>
                 })}
                 <button onClick={handleClickPrevious}>Previous</button>
                 <button onClick={handleClickNext}>Next</button>

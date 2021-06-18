@@ -1,40 +1,86 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 
 function Bar() {
 
     let [displaySearch, setSearch] = useState(false);
-    let [parameter, setParameter] = useState<string>();
+    let [parameter, setParameter] = useState<string>('genre');
+    let [searchText, setText] = useState<string>('Leonardo DiCaprio');
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setParameter(e.target.value);
+    };
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        (e.target as any).reset();
 
-    };
-
-    function Form() {
-        return (
-            <div>
-                <form onSubmit={(handleSubmit)}>
-                    <input type='search' placeholder='Type to search' />
-                    <input type='radio' id='genre' name='searchParameter' value='genre' onClick={(e) => { setParameter((e.target as any).value) }} />
-                    <label htmlFor='genre'>Genre</label>
-                    <input type='radio' id='cast' name='searchParameter' value='cast' onClick={(e) => { setParameter((e.target as any).value) }} />
-                    <label htmlFor='cast'>Cast</label>
-                    <input type='radio' id='text' name='searchParameter' value='text' onClick={(e) => { setParameter((e.target as any).value) }}/>
-                    <label htmlFor='text'>Text</label>
-                    <input type='submit' value='Submit' />
-                    <p></p>
-                </form>
-            </div>
-        );
     };
 
     return (
         <div>
             <button onClick={() => { setSearch(!displaySearch) }}>Search</button>
-            {displaySearch ? (<Form />) : null}
-            <img src='../favicon.ico' alt='mflix' />
-            <label>Mflix</label>
+            {displaySearch ? (
+                <form
+                    name='searchForm'
+                    onSubmit={(handleSubmit)}
+                >
+                    <input
+                        type='text'
+                        required
+                        placeholder='John Ott'
+                        onChange={(e) => { setText(e.target.value) }}
+                    />
+                    <label
+                        htmlFor='genre'
+                    >
+                        <input
+                            required
+                            type='radio'
+                            id='genre'
+                            name='searchParameter'
+                            value='genre'
+                            onChange={handleChange}
+                        />
+                        Genre
+                    </label>
+                    <label
+                        htmlFor='cast'
+                    >
+                        <input
+                            required
+                            type='radio'
+                            id='cast'
+                            name='searchParameter'
+                            value='cast'
+                            onChange={handleChange}
+                        />
+                        Cast
+                    </label>
+                    <label
+                        htmlFor='text'
+                    >
+                        <input
+                            required
+                            type='radio'
+                            id='text'
+                            name='searchParameter'
+                            value='text'
+                            onChange={handleChange}
+                        />
+                        Text
+                    </label>
+                    <input
+                        type='submit'
+                        value='Submit'
+                    />
+                </form>
+            ) : null}
+            <Link to='/' >
+                <img src='../favicon.ico' alt='mflix' />
+                <label>Mflix</label>
+            </Link>
         </div>
     );
 };

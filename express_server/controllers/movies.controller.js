@@ -111,13 +111,66 @@ module.exports.getMoviesByCountry = async (country) => {
 };
 
 //returns a movie against a specified _id value
-module.exports.getMoviesByID = async (_id) => {
+module.exports.getMoviesByID = async (id) => {
     try {
-        let find = {
-            _id: ObjectId(_id)
+        const pipeline = [
+            {
+                $match: {
+                    _id: ObjectId(id),
+                },
+            },
+            {
+                $lookup: {
+                    from: "comments",
+                    let: {
+                        id: "$_id"
+                    },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: [
+                                        "$movie_id", "$$id"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            $sort: {
+                                date: -1
+                            }
+                        },
+                        {
+                            $project: {
+                                _id: 0,
+                                name: 1,
+                                text: 1
+                            }
+                        }
+                    ],
+                    as: "comments"
+                }
+            }
+        ];
+        let projection = {
+            _id: 0,
+            title: 1,
+            year: 1,
+            rated: 1,
+            directors: 1,
+            fullplot: 1,
+            imdb: 1,
+            metacritic: 1,
+            tomatoes: 1,
+            poster: 1,
+            cast: 1,
+            genres: 1,
+            writers: 1,
+            comments: 1
         };
         let cursor = await movies
-            .find(find)
+            .aggregate(pipeline)
+            .project(projection)
             .toArray();
         return cursor;
     } catch (e) {
