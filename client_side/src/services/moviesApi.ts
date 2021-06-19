@@ -13,3 +13,24 @@ export async function moviesById(id: string) {
     let data: [moviesByObjectId] = await response.json();
     return data[0];
 };
+
+export async function moviesByCountry(page: number, country: string) {
+    let uri = `http://localhost:5000/searchMoviesByCountry/${country}/${page}`;
+    let response = await fetch(uri);
+    let data: [number, moviesByPageNumber] = await response.json();
+    return data;
+};
+
+export async function moviesByCast(cast: string) {
+    let uri = `http://localhost:5000/searchMoviesByCast/${cast}`;
+    let response = await fetch(uri);
+    let data: moviesByPageNumber[] = await response.json();
+    return data;
+};
+
+export async function moviesByGenre(page: number, genre: string) {
+    let uri = `http://localhost:5000/searchMoviesByGenre/${genre}/${page}`;
+    let response = await fetch(uri);
+    let data: [number, moviesByPageNumber] = await response.json();
+    return data;
+};

@@ -47,7 +47,7 @@ export interface moviesByObjectId {
     cast?: string[],
     genres?: string[],
     writers?: string[],
-    comments?: comments[]
+    comments: comments[]
 };
 
 interface comments {

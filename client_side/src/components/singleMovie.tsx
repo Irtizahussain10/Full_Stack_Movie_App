@@ -58,12 +58,14 @@ function SingleMovie() {
                             return <span key={index}>{name} </span>
                         })}</div> : null}
                     <p><strong>Comments</strong></p>
-                    {data.comments ? data.comments.map((comment, index) => {
-                        return (<div key={index}>
-                            <p>{comment.name}</p>
-                            <p>{comment.text}</p>
-                        </div>)
-                    }) : <p>Not</p>}
+                    {data.comments[0] ? data.comments.map((comment, key) => {
+                        return (
+                            <div key={key}>
+                                <h6>{comment.name}</h6>
+                                <p>{comment.text}</p>
+                            </div>
+                        )
+                    }) : <p><b>No comments available</b></p>}
                 </div>
             </div>
         );

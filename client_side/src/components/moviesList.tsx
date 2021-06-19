@@ -21,14 +21,14 @@ function MoviesList() {
 
     function handleClickPrevious() {
         if (page === 0) {
-            setPage(Math.ceil((count || 23530) / 20));
+            setPage(Math.ceil((count || 23530) / 20) - 1);
         } else {
             setPage(page - 1);
         };
     };
 
     function handleClickNext() {
-        if (page === Math.ceil((count || 23530 / 20))) {
+        if (page === Math.ceil((count || 23530) / 20) - 1) {
             setPage(0);
         } else {
             setPage(page + 1);

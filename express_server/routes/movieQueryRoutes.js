@@ -35,9 +35,10 @@ router.get('/searchMoviesByCast/:Actor', async (req, res) => {
 });
 
 //This route will give all the movies belonging to a particular genre
-router.get('/searchMoviesByGenre/:Genre', async (req, res) => {
+router.get('/searchMoviesByGenre/:Genre/:Page', async (req, res) => {
   try {
-    let response = await moviesController.getMoviesByGenre(req.params.Genre);
+    let response = await moviesController
+      .getMoviesByGenre(req.params.Page, req.params.Genre);
     res.send(response);
   } catch (e) {
     console.error(e.stack);
@@ -46,9 +47,10 @@ router.get('/searchMoviesByGenre/:Genre', async (req, res) => {
 });
 
 //This route will give all the movies released in a particular country
-router.get('/searchMoviesByCountry/:Country', async (req, res) => {
+router.get('/searchMoviesByCountry/:Country/:Page', async (req, res) => {
   try {
-    let response = await moviesController.getMoviesByCountry(req.params.Country);
+    let response = await moviesController
+      .getMoviesByCountry(Number(req.params.Page), req.params.Country);
     res.send(response);
   } catch (e) {
     console.error(e.stack);

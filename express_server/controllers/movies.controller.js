@@ -27,7 +27,7 @@ module.exports.getMovies = async (pageNumber) => {
             .find()
             .sort({ year: -1 })
             .project(projection)
-            .skip(pageNumber)
+            .skip(pageNumber * 20)
             .limit(20)
             .toArray();
         return [count, ...cursor];
@@ -63,7 +63,7 @@ module.exports.getMoviesByActor = async (actor) => {
 };
 
 //returns all the movies of a given genre
-module.exports.getMoviesByGenre = async (genre) => {
+module.exports.getMoviesByGenre = async (page, genre) => {
     try {
         let find = {
             genres: genre
@@ -81,6 +81,8 @@ module.exports.getMoviesByGenre = async (genre) => {
             .count();
         let cursor = await movies
             .find(find)
+            .skip(page * 20)
+            .limit(20)
             .project(projection)
             .toArray();
         return [count, ...cursor];
@@ -91,7 +93,7 @@ module.exports.getMoviesByGenre = async (genre) => {
 };
 
 //returns all the movies released in a given country
-module.exports.getMoviesByCountry = async (country) => {
+module.exports.getMoviesByCountry = async (page, country) => {
     try {
         let find = {
             countries: country
@@ -99,11 +101,16 @@ module.exports.getMoviesByCountry = async (country) => {
         let projection = {
             title: 1
         };
+        let count = await movies
+            .find(find)
+            .count();
         let cursor = await movies
             .find(find)
             .project(projection)
+            .skip(page * 20)
+            .limit(20)
             .toArray();
-        return cursor;
+        return [count, ...cursor];
     } catch (e) {
         console.error(e.stack);
         return [];
