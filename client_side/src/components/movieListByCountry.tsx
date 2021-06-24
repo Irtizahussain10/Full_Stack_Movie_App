@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import List from "./List";
 import { moviesByCountry } from '../services/moviesApi';
 import { moviesByPageNumber } from "../types/types";
 
@@ -45,19 +45,11 @@ function MovieListByCountry() {
         return <h1>...Loading</h1>
     } else {
         return (
-            <div>
-                <ul>
-                    {data.map((movie, key) => {
-                        return (
-                            <Link key={key} to={`/${movie._id}`}>
-                                <li>{movie.title}</li>
-                            </Link>
-                        )
-                    })}
-                </ul>
-                <button onClick={handleClickPrevious}>Previous</button>
-                <button onClick={handleClickNext}>Next</button>
-            </div>
+            <List
+                data={data}
+                handleClickPrevious={handleClickPrevious}
+                handleClickNext={handleClickNext}
+            />
         )
     };
 };

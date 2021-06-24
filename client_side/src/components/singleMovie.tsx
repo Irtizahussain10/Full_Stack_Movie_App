@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { moviesById } from '../services/moviesApi';
@@ -46,12 +47,12 @@ function SingleMovie() {
                     {data.genres ? <div>
                         <p><strong>Genres</strong></p>
                         {data.genres.map((genre, index) => {
-                            return <span key={index}>{genre} </span>
+                            return <Link to={`/genre/${genre}`}><span key={index}>{genre} </span></Link>
                         })}
                     </div> : null}
                     {data.cast ? <div><p><strong>Cast</strong></p>
                         {data.cast.map((name, index) => {
-                            return <span key={index}>{name} </span>
+                            return <Link to={`cast/${name}`}><span key={index}>{name} </span></Link>
                         })}</div> : null}
                     {data.writers ? <div><p><strong>Writers</strong></p>
                         {data.writers.map((name, index) => {

@@ -53,6 +53,7 @@ module.exports.getMoviesByActor = async (actor) => {
         };
         let cursor = await movies
             .find(find)
+            .sort({ year: -1 })
             .project(projection)
             .toArray();
         return cursor;
@@ -81,6 +82,7 @@ module.exports.getMoviesByGenre = async (page, genre) => {
             .count();
         let cursor = await movies
             .find(find)
+            .sort({ year: -1 })
             .skip(page * 20)
             .limit(20)
             .project(projection)
@@ -99,13 +101,19 @@ module.exports.getMoviesByCountry = async (page, country) => {
             countries: country
         };
         let projection = {
-            title: 1
+            title: 1,
+            year: 1,
+            cast: 1,
+            poster: 1,
+            rated: 1,
+            imdb: 1
         };
         let count = await movies
             .find(find)
             .count();
         let cursor = await movies
             .find(find)
+            .sort({ year: -1 })
             .project(projection)
             .skip(page * 20)
             .limit(20)
