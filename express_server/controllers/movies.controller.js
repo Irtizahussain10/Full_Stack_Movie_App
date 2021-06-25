@@ -194,3 +194,35 @@ module.exports.getMoviesByID = async (id) => {
         return [];
     };
 };
+
+module.exports.getMoviesByText = async (text, page) => {
+    try {
+        let find = {
+            $text: {
+                $search: `\"${text}\"`
+            }
+        };
+        let projection = {
+            title: 1,
+            year: 1,
+            cast: 1,
+            poster: 1,
+            rated: 1,
+            imdb: 1
+        };
+        let count = await movies
+            .find(find)
+            .count();
+        let cursor = await movies
+            .find(find)
+            .sort({ year: -1 })
+            .project(projection)
+            .skip(page * 20)
+            .limit(20)
+            .toArray()
+        return [count, ...cursor];
+    } catch {
+        console.error(e.stack);
+        return [];
+    };
+}

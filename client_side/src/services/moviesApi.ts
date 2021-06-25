@@ -34,3 +34,10 @@ export async function moviesByGenre(page: number, genre: string) {
     let data: [number, moviesByPageNumber] = await response.json();
     return data;
 };
+
+export async function moviesByText(text: string, page: number) {
+    let uri = `http://localhost:5000/textSearch/${text}/${page}`;
+    let response = await fetch(uri);
+    let data: [number, moviesByPageNumber] = await response.json();
+    return data;
+};

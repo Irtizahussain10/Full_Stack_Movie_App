@@ -4,11 +4,11 @@ import List from "./List";
 import { moviesByCast } from "../services/moviesApi";
 import { moviesByPageNumber } from "../types/types";
 
-function MovieListByCast() {
+interface Params {
+    cast: string
+};
 
-    interface Params {
-        cast: string
-    };
+function MovieListByCast() {
 
     const { cast } = useParams<Params>();
     let [data, setData] = useState<moviesByPageNumber[]>();

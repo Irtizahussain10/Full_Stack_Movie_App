@@ -69,4 +69,15 @@ router.get('/searchMoviesById/:id', async (req, res) => {
   };
 });
 
+//This route handles the text-search
+router.get('/textSearch/:text/:page', async (req, res) => {
+  try {
+    let response = await moviesController.getMoviesByText(req.params.text, req.params.page);
+    res.send(response);
+  } catch (e) {
+    console.error(e.stack);
+    res.send('Oops! Something went wrong');
+  };
+});
+
 module.exports = router;

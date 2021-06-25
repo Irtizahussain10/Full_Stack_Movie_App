@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import List from "./List";
-import { moviesByGenre } from "../services/moviesApi";
+import { moviesByText } from "../services/moviesApi";
 import { moviesByPageNumber } from "../types/types";
 
 interface Params {
-    genre: string
+    text: string
 };
 
-function MovieListByGenre() {
+function SearchResults() {
 
-    let { genre } = useParams<Params>();
-    let [page, setPage] = useState<number>(0);
-    let [count, setCount] = useState<number>(0);
+    let { text } = useParams<Params>();
+    let [page, setPage] = useState(0);
     let [data, setData] = useState<moviesByPageNumber[]>();
+    let [count, setCount] = useState<number>(0);
 
     useEffect(() => {
-        moviesByGenre(page, genre)
+        moviesByText(text, page)
             .then((res) => {
                 let [count, ...movies] = res;
-                setCount(count);
                 setData(movies);
+                setCount(count);
+                console.log(count,movies, page);
             })
-            .catch(console.log)
-    }, [page, genre]);
+            .catch((e) => { console.log(e) });
+    }, [page, text]);
 
     function handleClickPrevious() {
         if (page === 0) {
@@ -47,11 +48,11 @@ function MovieListByGenre() {
         return (
             <List
                 data={data}
-                handleClickPrevious={handleClickPrevious}
                 handleClickNext={handleClickNext}
+                handleClickPrevious={handleClickPrevious}
             />
         );
-    };
+    }
 };
 
-export default MovieListByGenre;
+export default SearchResults;

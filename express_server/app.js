@@ -13,17 +13,18 @@ const port = process.env.port;
 
 app.use(cors());
 
+app.use('/', movieControllers);
+
 MongoClient.connect(uri, {
   useNewUrlParser: true, useUnifiedTopology: true
 })
   .then(client => connect.connection(client))
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Listening at http://localhost:${port}`);
+    });
+  })
   .catch((e) => {
     console.error(e);
     process.exit(1);
   });
-
-app.use('/', movieControllers);
-
-app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
-});

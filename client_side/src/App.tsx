@@ -5,6 +5,7 @@ import MovieListByCountry from './components/movieListByCountry';
 import MovieListByGenre from './components/movieListByGenre';
 import Bar from './components/bar';
 import MovieListByCast from './components/movieListByCast';
+import SearchResults from './components/searchResult';
 
 function App() {
 
@@ -34,6 +35,10 @@ function App() {
 
           <Route exact path='/genre/:genre'>
             <MovieListByGenre />
+          </Route>
+
+          <Route exact path='/text/:text'>
+            <SearchResults />
           </Route>
 
           <Route exact path='/*'>

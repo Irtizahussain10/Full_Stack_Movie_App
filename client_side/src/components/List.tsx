@@ -17,7 +17,7 @@ function List(props: Props) {
                     {<h4>{element.title}</h4>}
                     <h5><span>{element.year} </span><span>{element.rated}</span></h5>
                     <h5>{element.cast?.map((actor, key) => {
-                        return <Link to={`/cast/${actor}`}><span key={key}>{actor} </span></Link>
+                        return <Link to={`/cast/${actor}`} key={key}><span>{actor} </span></Link>
                     })}</h5>
                     <h6>{element.imdb?.rating}</h6>
                 </Link>

@@ -1,9 +1,11 @@
 import React from "react";
+import { useHistory } from 'react-router-dom'
 import { useState } from "react";
 import { Link } from 'react-router-dom';
 
 function Bar() {
 
+    let history = useHistory();
     let [displaySearch, setSearch] = useState(false);
     let [parameter, setParameter] = useState<string>('genre');
     let [searchText, setText] = useState<string>('Leonardo DiCaprio');
@@ -14,13 +16,23 @@ function Bar() {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        setSearch(!displaySearch);
         (e.target as any).reset();
-
+        if (parameter === 'genre') {
+            history.push(`/genre/${searchText}`);
+        } else if (parameter === 'cast') {
+            history.push(`/cast/${searchText}`);
+        } else if (parameter === 'text') {
+            history.push(`/text/${searchText}`);
+        };
     };
 
     return (
         <div>
-            <button onClick={() => { setSearch(!displaySearch) }}>Search</button>
+            <button
+                onClick={() => { setSearch(!displaySearch) }}
+            >Search
+            </button>
             {displaySearch ? (
                 <form
                     name='searchForm'

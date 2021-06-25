@@ -4,16 +4,16 @@ import List from "./List";
 import { moviesByCountry } from '../services/moviesApi';
 import { moviesByPageNumber } from "../types/types";
 
-function MovieListByCountry() {
+interface Params {
+    country: string
+};
 
-    interface Params {
-        country: string
-    };
+function MovieListByCountry() {
 
     const { country } = useParams<Params>();
     let [page, setPage] = useState<number>(0);
     let [data, setData] = useState<[moviesByPageNumber]>();
-    let [count, setCount] = useState<number>();
+    let [count, setCount] = useState<number>(0);
 
     useEffect(() => {
         moviesByCountry(page, country)
@@ -23,18 +23,18 @@ function MovieListByCountry() {
                 setCount(count);
             })
             .catch(console.log);
-    }, [page]);
+    }, [page, country]);
 
     function handleClickPrevious() {
         if (page === 0) {
-            setPage(Math.ceil((count || 11846) / 20) - 1)
+            setPage(Math.ceil((count) / 20) - 1)
         } else {
             setPage(page - 1);
         }
     };
 
     function handleClickNext() {
-        if (page === Math.ceil((count || 10000) / 20) - 1) {
+        if (page === Math.ceil((count) / 20) - 1) {
             setPage(0);
         } else {
             setPage(page + 1);
