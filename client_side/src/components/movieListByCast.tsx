@@ -11,7 +11,7 @@ interface Params {
 function MovieListByCast() {
 
     const { cast } = useParams<Params>();
-    let [data, setData] = useState<moviesByPageNumber[]>();
+    let [data, setData] = useState<moviesByPageNumber[]>([]);
 
     useEffect(() => {
         moviesByCast(cast)

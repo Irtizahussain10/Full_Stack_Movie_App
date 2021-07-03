@@ -1,9 +1,12 @@
-import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { LogInStatus } from "../context/LoginContext";
 
 function LogIn() {
 
+    let history = useHistory();
+    let { setLoggedIn } = useContext(LogInStatus);
     let [showPassword, setShowPassword] = useState(false);
     let [email, setEmail] = useState<string>();
     let [password, setPassword] = useState<string>();
@@ -21,7 +24,23 @@ function LogIn() {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        (e.target as any).reset();
+        setLoggedIn(false);
+        let user = {
+            email: email,
+            password: password
+        };
+        axios.post('http://localhost:5000/userLogin', user)
+            .then((res) => {
+                if (res.status === 200) {
+                    sessionStorage.setItem('userCredentials', JSON.stringify(res.data[0]));
+                    sessionStorage.setItem('userComments', JSON.stringify(res.data[1]));
+                } else {
+
+                };
+            })
+            .catch(console.log);
+        history.push('/');
+
     };
 
     return (

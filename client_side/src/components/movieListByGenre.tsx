@@ -13,7 +13,7 @@ function MovieListByGenre() {
     let { genre } = useParams<Params>();
     let [page, setPage] = useState<number>(0);
     let [count, setCount] = useState<number>(0);
-    let [data, setData] = useState<moviesByPageNumber[]>();
+    let [data, setData] = useState<moviesByPageNumber[]>([]);
 
     useEffect(() => {
         moviesByGenre(page, genre)

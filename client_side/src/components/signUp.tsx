@@ -1,9 +1,11 @@
 import React from "react";
+import axios from "axios";
 import { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function SignUp() {
 
+    let history = useHistory();
     let [email, setEmail] = useState<string>();
     let [name, setName] = useState<string>();
     let [password, setPassword] = useState<string>();
@@ -28,6 +30,15 @@ function SignUp() {
             setError(true);
         } else {
             (e.target as any).reset();
+            let user = {
+                email: email,
+                password: password,
+                name: name
+            };
+            axios.post('http://localhost:5000/createUser', user)
+                .then(res => console.log(res))
+                .then(_res => history.push('/userLogIn'))
+                .catch(console.log);
         };
     };
 
@@ -43,6 +54,7 @@ function SignUp() {
                     onChange={(e) => { handleChange(e, setName) }}
                 />
             </label>
+            <br />
             <label>
                 Enter email address
                 <br />

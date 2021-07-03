@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface moviesByPageNumber {
     _id?: string,
     title?: string,
@@ -54,3 +56,8 @@ interface comments {
     name: string,
     text: string
 }
+
+export interface loginStatus {
+    notLoggedIn: boolean,
+    setLoggedIn: Dispatch<SetStateAction<boolean>>
+};

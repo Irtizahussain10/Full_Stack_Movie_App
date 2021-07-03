@@ -7,7 +7,7 @@ function MoviesList() {
 
     let [page, setPage] = useState(0);
     let [count, setCount] = useState<number>(0);
-    let [data, setData] = useState<moviesByPageNumber[]>();
+    let [data, setData] = useState<moviesByPageNumber[]>([]);
 
     useEffect(function () {
         moviesByPage(page)

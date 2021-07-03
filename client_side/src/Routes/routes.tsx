@@ -1,4 +1,4 @@
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import MoviesList from '../components/moviesList';
 import SingleMovie from '../components/singleMovie';
 import MovieListByCountry from '../components/movieListByCountry';
@@ -7,8 +7,14 @@ import MovieListByCast from '../components/movieListByCast';
 import SearchResults from '../components/searchResult';
 import LogIn from '../components/userLogin';
 import SignUp from '../components/signUp';
+import MyPortal from '../components/myPortal';
+import { useContext } from 'react';
+import { LogInStatus } from '../context/LoginContext';
 
 function Routes() {
+
+    let { notLoggedIn } = useContext(LogInStatus);
+
     return (
         <Switch>
 
@@ -16,13 +22,13 @@ function Routes() {
                 <MoviesList />
             </Route>
 
-            <Route exact path='/userLogin'>
+            {notLoggedIn ? <Route exact path='/userLogin'>
                 <LogIn />
-            </Route>
+            </Route> : null}
 
-            <Route exact path='/SignUp'>
+            {notLoggedIn ? <Route exact path='/SignUp'>
                 <SignUp />
-            </Route>
+            </Route> : null}
 
             <Route exact path='/:id'>
                 <SingleMovie />
@@ -43,10 +49,10 @@ function Routes() {
             <Route exact path='/text/:text'>
                 <SearchResults />
             </Route>
-
+            {/* 
             <Route exact path='/*'>
-                <MoviesList />
-            </Route>
+                <h1>Oops! the page is not available</h1>
+            </Route> */}
 
         </Switch>
     );

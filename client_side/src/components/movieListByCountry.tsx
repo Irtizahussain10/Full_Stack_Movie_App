@@ -12,7 +12,7 @@ function MovieListByCountry() {
 
     const { country } = useParams<Params>();
     let [page, setPage] = useState<number>(0);
-    let [data, setData] = useState<[moviesByPageNumber]>();
+    let [data, setData] = useState<moviesByPageNumber[]>([]);
     let [count, setCount] = useState<number>(0);
 
     useEffect(() => {

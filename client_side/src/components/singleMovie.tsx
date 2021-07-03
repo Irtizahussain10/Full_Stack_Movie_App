@@ -43,7 +43,7 @@ function SingleMovie() {
                     </p> : null}
                 </div>
                 <div>
-                    {data.poster ? <img src={data.poster} alt=''/> : <div>Image not found</div>}
+                    {data.poster ? <img src={data.poster} alt='' /> : <div>Image not found</div>}
                     {data.genres ? <div>
                         <p><strong>Genres</strong></p>
                         {data.genres.map((genre, index) => {

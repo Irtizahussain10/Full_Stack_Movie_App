@@ -1,7 +1,11 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { LogInStatus } from '../context/LoginContext';
 import SearchForm from './searchForm';
 
 function Bar() {
+
+    let { notLoggedIn } = useContext(LogInStatus);
 
     return (
         <div>
@@ -10,12 +14,12 @@ function Bar() {
                 <img src='../favicon.ico' alt='mflix' />
                 <label>Mflix</label>
             </Link>
-            <Link to='/userLogin'>
+            {notLoggedIn ? <Link to='/userLogin'>
                 <label>Login</label>
-            </Link>
-            <Link to='/SignUp'>
+            </Link> : null}
+            {notLoggedIn ? <Link to='/SignUp'>
                 <label>Signup</label>
-            </Link>
+            </Link> : null}
         </div>
     );
 };
