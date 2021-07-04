@@ -22,7 +22,6 @@ module.exports.insertUser = async (user) => {
 
 module.exports.logUserIn = async (userCredentials) => {
     try {
-        console.log(userCredentials);
         let { email, password } = userCredentials;
         let findUser = {
             email: email,
@@ -41,7 +40,7 @@ module.exports.logUserIn = async (userCredentials) => {
             email: email
         };
         let projectComment = {
-            _id: 0, 
+            _id: 1,
             date: 1,
             text: 1
         };

@@ -21,7 +21,6 @@ function SearchResults() {
                 let [count, ...movies] = res;
                 setData(movies);
                 setCount(count);
-                console.log(count,movies, page);
             })
             .catch((e) => { console.log(e) });
     }, [page, text]);

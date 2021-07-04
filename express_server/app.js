@@ -5,8 +5,10 @@ const dotenv = require('dotenv');
 const { MongoClient } = require('mongodb');
 let connect1 = require('./controllers/movies.controller');
 let connect2 = require('./controllers/users.controller');
-let movieRoutes = require('./routes/movieQueryRoutes');
-let userRoutes = require('./routes/userRoutes');
+let connect3 = require('./controllers/comments.controller');
+let movieRoutes = require('./routes/movieQuery.routes');
+let userRoutes = require('./routes/user.routes');
+let commentRoutes = require('./routes/comment.routes');
 
 let uri = 'mongodb+srv://m220-student:m220-password@mflix.zbubd.mongodb.net/admin';
 
@@ -20,7 +22,7 @@ app.use(express.urlencoded({
 }));
 app.use(cors());
 
-app.use('/', movieRoutes, userRoutes);
+app.use('/', movieRoutes, userRoutes, commentRoutes);
 
 MongoClient.connect(uri, {
   useNewUrlParser: true, useUnifiedTopology: true
@@ -28,6 +30,7 @@ MongoClient.connect(uri, {
   .then((client) => {
     connect1.connection(client);
     connect2.connection(client);
+    connect3.connection(client);
   })
   .then(() => {
     app.listen(port, () => {

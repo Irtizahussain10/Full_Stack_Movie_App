@@ -46,17 +46,17 @@ function SingleMovie() {
                     {data.poster ? <img src={data.poster} alt='' /> : <div>Image not found</div>}
                     {data.genres ? <div>
                         <p><strong>Genres</strong></p>
-                        {data.genres.map((genre, index) => {
-                            return <Link to={`/genre/${genre}`}><span key={index}>{genre} </span></Link>
+                        {data.genres.map((genre, key) => {
+                            return <Link to={`/genre/${genre}`} key={key}><span>{genre} </span></Link>
                         })}
                     </div> : null}
                     {data.cast ? <div><p><strong>Cast</strong></p>
-                        {data.cast.map((name, index) => {
-                            return <Link to={`cast/${name}`}><span key={index}>{name} </span></Link>
+                        {data.cast.map((name, key) => {
+                            return <Link to={`cast/${name}`} key={key}><span>{name} </span></Link>
                         })}</div> : null}
                     {data.writers ? <div><p><strong>Writers</strong></p>
-                        {data.writers.map((name, index) => {
-                            return <span key={index}>{name} </span>
+                        {data.writers.map((name, key) => {
+                            return <span key={key}>{name} </span>
                         })}</div> : null}
                     <p><strong>Comments</strong></p>
                     {data.comments[0] ? data.comments.map((comment, key) => {

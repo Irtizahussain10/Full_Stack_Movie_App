@@ -38,9 +38,8 @@ function LogIn() {
 
                 };
             })
+            .then(() => history.push('/'))
             .catch(console.log);
-        history.push('/');
-
     };
 
     return (
@@ -50,6 +49,7 @@ function LogIn() {
                 <br />
                 <input
                     type='email'
+                    autoComplete='on'
                     placeholder='abc@xyz.com'
                     required
                     onChange={(e) => { handleChange(e, setEmail) }}

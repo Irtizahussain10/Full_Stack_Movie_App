@@ -7,7 +7,6 @@ import MovieListByCast from '../components/movieListByCast';
 import SearchResults from '../components/searchResult';
 import LogIn from '../components/userLogin';
 import SignUp from '../components/signUp';
-import MyPortal from '../components/myPortal';
 import { useContext } from 'react';
 import { LogInStatus } from '../context/LoginContext';
 

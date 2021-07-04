@@ -27,3 +27,4 @@ function App() {
 
 export default App;
 // To handle errors use isLoading, setLoading
+//redirecting user to login page if by mistake goes to logged waly pages
