@@ -15,12 +15,12 @@ function SingleMovie() {
 
     useEffect(() => {
         moviesById(id)
-            .then((res) => { setData(res); })
+            .then((res) => { setData(res) })
             .catch(console.log);
     }, [id]);
 
     if (!data) {
-        return <>...Loading</>
+        return <h1>...Loading</h1>
     } else {
         return (
             <div>

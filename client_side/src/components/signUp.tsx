@@ -1,11 +1,13 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useHistory } from 'react-router-dom';
+import { LogInStatus } from "../context/LoginContext";
 
 function SignUp() {
 
     let history = useHistory();
+    let { setLoggedIn } = useContext(LogInStatus);
     let [email, setEmail] = useState<string>();
     let [name, setName] = useState<string>();
     let [password, setPassword] = useState<string>();
@@ -31,13 +33,17 @@ function SignUp() {
         } else {
             (e.target as any).reset();
             let user = {
-                email: email,
-                password: password,
-                name: name
+                email,
+                password,
+                name
             };
             axios.post('http://localhost:5000/createUser', user)
-                .then(res => console.log(res))
-                .then(_res => history.push('/userLogIn'))
+                .then(() => {
+                    localStorage.setItem('userData',
+                        JSON.stringify([{ email: user.email, name: user.name }]))
+                })
+                .then(() => { setLoggedIn(false) })
+                .then(() => { history.push('/') })
                 .catch(console.log);
         };
     };

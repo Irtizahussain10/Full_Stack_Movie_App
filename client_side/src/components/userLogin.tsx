@@ -24,7 +24,6 @@ function LogIn() {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        setLoggedIn(false);
         let user = {
             email: email,
             password: password
@@ -32,12 +31,12 @@ function LogIn() {
         axios.post('http://localhost:5000/userLogin', user)
             .then((res) => {
                 if (res.status === 200) {
-                    sessionStorage.setItem('userCredentials', JSON.stringify(res.data[0]));
-                    sessionStorage.setItem('userComments', JSON.stringify(res.data[1]));
+                    localStorage.setItem('userData', JSON.stringify(res.data));
                 } else {
 
                 };
             })
+            .then(() => { setLoggedIn(false) })
             .then(() => history.push('/'))
             .catch(console.log);
     };

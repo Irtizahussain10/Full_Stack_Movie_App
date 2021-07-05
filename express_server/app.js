@@ -6,7 +6,7 @@ const { MongoClient } = require('mongodb');
 let connect1 = require('./controllers/movies.controller');
 let connect2 = require('./controllers/users.controller');
 let connect3 = require('./controllers/comments.controller');
-let movieRoutes = require('./routes/movieQuery.routes');
+let movieRoutes = require('./routes/movie.routes');
 let userRoutes = require('./routes/user.routes');
 let commentRoutes = require('./routes/comment.routes');
 

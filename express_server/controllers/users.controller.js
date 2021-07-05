@@ -22,37 +22,16 @@ module.exports.insertUser = async (user) => {
 
 module.exports.logUserIn = async (userCredentials) => {
     try {
-        let { email, password } = userCredentials;
-        let findUser = {
-            email: email,
-            password: password
-        };
         let projectUser = {
             email: 1,
             name: 1,
             _id: 0
         };
         let user = await users
-            .find(findUser)
+            .find(userCredentials)
             .project(projectUser)
             .toArray();
-        let findComment = {
-            email: email
-        };
-        let projectComment = {
-            _id: 1,
-            date: 1,
-            text: 1
-        };
-        let sort = {
-            date: -1
-        };
-        let comments = await comment
-            .find(findComment)
-            .project(projectComment)
-            .sort(sort)
-            .toArray();
-        return [...user, [...comments]];
+        return [...user];
     } catch (e) {
         console.log(e.stack);
         return 'Unable to connect';
