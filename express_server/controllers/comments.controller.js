@@ -34,7 +34,7 @@ module.exports.findComments = async (predicate) => {
                         },
                         {
                             $project: {
-                                _id: 0,
+                                _id: 1,
                                 title: 1
                             }
                         }

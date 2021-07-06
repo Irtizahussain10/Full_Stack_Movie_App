@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 const router = express.Router();
 let commentsController = require('../controllers/comments.controller');
 
-router.get('/getComments', async (req, res) => {
+router.post('/getComments', async (req, res) => {
     try {
         let result = await commentsController.findComments(req.body);
         res.send(result);
@@ -24,6 +24,7 @@ router.delete('/deleteComment', async (req, res) => {
         let result = await commentsController.deleteComment(predicate);
         res.send(result);
     } catch (e) {
+        console.error(e.stack);
         res.send('Not deleted');
     };
 });

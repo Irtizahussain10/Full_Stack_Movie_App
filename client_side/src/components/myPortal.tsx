@@ -15,16 +15,17 @@ interface Comments {
     date: string,
     movie_name: [
         {
+            _id: string,
             title: string
         }
-    ]
+    ],
 };
 
 function MyPortal() {
 
     let [comments, setComments] = useState<Comments[]>([]);
     let [displayComments, setDisplay] = useState<boolean>(false);
-    let [parsedCredentials, setCredentials] = useState({} as Credentials[]);
+    let [parsedCredentials, setCredentials] = useState<Credentials[]>([]);
     let { setLoggedIn } = useContext(LogInStatus);
     let userCredentials = localStorage.getItem('userData');
 
@@ -39,19 +40,19 @@ function MyPortal() {
 
     function handleDisplay() {
         setDisplay(!displayComments);
-        axios.get('http://localhost:5000/getComments', {
-            data: {
-                email: parsedCredentials[0].email,
-                name: parsedCredentials[0].name
-            }
-        })
-            .then((res) => { console.log(res) })
+        let data = {
+            email: parsedCredentials[0]?.email,
+            name: parsedCredentials[0]?.name
+        };
+        axios.post('http://localhost:5000/getComments', data)
+            .then((res) => setComments(res.data))
             .catch(console.log);
     };
 
     if (!parsedCredentials) {
         return <h1>...Loading</h1>
     } else {
+
         return (
             <div>
                 <SearchForm />
@@ -65,7 +66,18 @@ function MyPortal() {
                         <button onClick={() => setDisplay(!displayComments)}>Hide Comments</button>
                 }
                 {
-
+                    comments && displayComments ?
+                        comments.map((comment, key) => {
+                            let d = new Date(comment.date);
+                            let date = d.toDateString();
+                            return <p key={key}>
+                                <span>{comment.text}</span>
+                                <Link to={`/${comment.movie_name[0]._id}`}>
+                                    <span>({comment.movie_name[0].title})</span>
+                                </Link>
+                                <span>({date})</span>
+                            </p>
+                        }) : null
                 }
                 <label>{parsedCredentials[0]?.name}</label>
                 <button onClick={handleClick}>Signout</button>
