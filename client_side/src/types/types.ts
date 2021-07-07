@@ -61,3 +61,20 @@ export interface loginStatus {
     notLoggedIn: boolean,
     setLoggedIn: Dispatch<SetStateAction<boolean>>
 };
+
+export interface Credentials {
+    email: string,
+    name: string
+};
+
+export interface Comments {
+    _id: string,
+    text: string,
+    date: string,
+    movie_name: [
+        {
+            _id: string,
+            title: string
+        }
+    ],
+};

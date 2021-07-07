@@ -42,13 +42,12 @@ function LogIn() {
     };
 
     return (
-        <form name='UserLogin' onSubmit={(e) => handleSubmit(e)}>
+        <form name='UserLogin' onSubmit={(e) => handleSubmit(e)} >
             <label>
                 Enter the Email Id
                 <br />
                 <input
                     type='email'
-                    autoComplete='on'
                     placeholder='abc@xyz.com'
                     required
                     onChange={(e) => { handleChange(e, setEmail) }}

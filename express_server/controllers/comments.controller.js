@@ -71,3 +71,14 @@ module.exports.deleteComment = async (predicate) => {
         return 'The delete operation failed!';
     };
 };
+
+module.exports.insertComment = async (predicate) => {
+    try {
+        let result = await comment
+            .insertOne(predicate);
+        return result.insertedId;
+    } catch (e) {
+        console.error(e.stack);
+        return 'Not able to post comment';
+    };
+};

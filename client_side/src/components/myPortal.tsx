@@ -3,23 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LogInStatus } from '../context/LoginContext';
 import SearchForm from './searchForm';
-
-interface Credentials {
-    email: string,
-    name: string
-};
-
-interface Comments {
-    _id: string,
-    text: string,
-    date: string,
-    movie_name: [
-        {
-            _id: string,
-            title: string
-        }
-    ],
-};
+import { Credentials, Comments } from '../types/types';
 
 function MyPortal() {
 
