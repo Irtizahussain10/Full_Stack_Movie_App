@@ -18,8 +18,11 @@ function MyPortal() {
     }, [userCredentials]);
 
     function handleClick() {
-        localStorage.clear();
-        setLoggedIn(true);
+        localStorage.removeItem('userData');
+        localStorage.setItem('notLoggedIn', JSON.stringify(true));
+        setLoggedIn(
+            JSON.parse(localStorage.getItem('notLoggedIn') as string)
+        );
     };
 
     function handleDisplay() {

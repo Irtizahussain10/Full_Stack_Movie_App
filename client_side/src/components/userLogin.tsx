@@ -8,8 +8,8 @@ function LogIn() {
     let history = useHistory();
     let { setLoggedIn } = useContext(LogInStatus);
     let [showPassword, setShowPassword] = useState(false);
-    let [email, setEmail] = useState<string>();
-    let [password, setPassword] = useState<string>();
+    let [email, setEmail] = useState<string>('');
+    let [password, setPassword] = useState<string>('');
 
     function ShowPassword() {
         setShowPassword(!showPassword);
@@ -17,7 +17,7 @@ function LogIn() {
 
     function handleChange(
         e: React.ChangeEvent<HTMLInputElement>,
-        setState: React.Dispatch<React.SetStateAction<string | undefined>>
+        setState: React.Dispatch<React.SetStateAction<string>>
     ) {
         setState(e.target.value);
     };
@@ -25,8 +25,8 @@ function LogIn() {
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         let user = {
-            email: email,
-            password: password
+            email,
+            password
         };
         axios.post('http://localhost:5000/userLogin', user)
             .then((res) => {
@@ -36,7 +36,14 @@ function LogIn() {
 
                 };
             })
-            .then(() => { setLoggedIn(false) })
+            .then(() => {
+                localStorage.setItem('notLoggedIn', JSON.stringify(false));
+            })
+            .then(() => {
+                setLoggedIn(
+                    JSON.parse(localStorage.getItem('notLoggedIn') as string)
+                );
+            })
             .then(() => history.push('/'))
             .catch(console.log);
     };

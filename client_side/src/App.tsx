@@ -7,7 +7,16 @@ import Routes from './Routes/routes';
 
 function App() {
 
-  let [notLoggedIn, setLoggedIn] = useState(true);
+  if (!localStorage.getItem('userData')) {
+    localStorage.setItem('notLoggedIn', JSON.stringify(true));
+  } else if (!!localStorage.getItem('userData')) {
+    localStorage.setItem('notLoggedIn', JSON.stringify(false));
+  };
+
+  let [notLoggedIn, setLoggedIn] = useState<boolean>(
+    JSON.parse(localStorage.getItem('notLoggedIn') as string)
+  );
+
   let value = {
     notLoggedIn: notLoggedIn,
     setLoggedIn: setLoggedIn
@@ -28,3 +37,4 @@ function App() {
 export default App;
 // To handle errors use isLoading, setLoading
 //redirecting user to login page if by mistake goes to logged waly pages
+//onEnter

@@ -35,7 +35,7 @@ function SingleMovie() {
                 email: userCredentials[0]?.email
             };
             axios.post('http://localhost:5000/insertComment', data)
-                .then(() => setReload(true))
+                .then(() => { setReload(true) })
                 .catch(console.log);
         };
     };
@@ -62,7 +62,7 @@ function SingleMovie() {
                         return <p key={index}>{director}</p>
                     }) : null}
                     {data.runtime ? <h6>Runtime: {Math.floor(data.runtime / 60)} hr
-                        {data.runtime % 60} min</h6> : null}
+                        {data.runtime % 60} min </h6> : null}
                     <p>{data.fullplot}</p>
                     {data.imdb ? <p>
                         <strong>Imdb rating: {data.imdb.rating}
@@ -112,7 +112,10 @@ function SingleMovie() {
                         return (
                             <div key={key}>
                                 <h6>{comment.name}</h6>
-                                <p>{comment.text}</p>
+                                <p>
+                                    <span>{comment.text}</span>
+                                    <button>x</button>
+                                </p>
                             </div>
                         )
                     }) : <p><b>No comments available</b></p>}

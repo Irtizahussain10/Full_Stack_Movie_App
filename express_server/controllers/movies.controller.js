@@ -157,7 +157,7 @@ module.exports.getMoviesByID = async (id) => {
                         },
                         {
                             $project: {
-                                _id: 0,
+                                _id: 1,
                                 name: 1,
                                 text: 1
                             }
