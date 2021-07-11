@@ -8,6 +8,7 @@ function LogIn() {
     let history = useHistory();
     let { setLoggedIn } = useContext(LogInStatus);
     let [showPassword, setShowPassword] = useState(false);
+    let [connectionError, setConnectionError] = useState(false);
     let [email, setEmail] = useState<string>('');
     let [password, setPassword] = useState<string>('');
 
@@ -30,22 +31,28 @@ function LogIn() {
         };
         axios.post('http://localhost:5000/userLogin', user)
             .then((res) => {
-                if (res.status === 200) {
-                    localStorage.setItem('userData', JSON.stringify(res.data));
-                } else {
 
+                if (!res.data) {
+                    let error = { message: 'Network Error' };
+                    throw error;
+                };
+
+                if (res.data[0]) {
+                    localStorage.setItem('userData', JSON.stringify(res.data));
+                    localStorage.setItem('notLoggedIn', JSON.stringify(false));
+                    setLoggedIn(
+                        JSON.parse(localStorage.getItem('notLoggedIn') as string)
+                    );
+                    history.push('/');
+                } else if (!res.data[0]) {
+                    alert('No such account exists!')
                 };
             })
-            .then(() => {
-                localStorage.setItem('notLoggedIn', JSON.stringify(false));
-            })
-            .then(() => {
-                setLoggedIn(
-                    JSON.parse(localStorage.getItem('notLoggedIn') as string)
-                );
-            })
-            .then(() => history.push('/'))
-            .catch(console.log);
+            .catch((e) => {
+                if (e.message === 'Network Error') {
+                    setConnectionError(true);
+                }
+            });
     };
 
     return (
@@ -89,6 +96,7 @@ function LogIn() {
                     <button>Sign up</button>
                 </Link>
             </label>
+            {connectionError ? <p>Unable to connect</p> : null}
         </form>
     );
 };

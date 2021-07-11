@@ -29,7 +29,7 @@ function Routes() {
                 <SignUp />
             </Route> : null}
 
-            <Route exact path='/:id'>
+            <Route exact path='/movieByID/:id'>
                 <SingleMovie />
             </Route>
 
@@ -48,10 +48,10 @@ function Routes() {
             <Route exact path='/text/:text'>
                 <SearchResults />
             </Route>
-            {/* 
+            
             <Route exact path='/*'>
                 <h1>Oops! the page is not available</h1>
-            </Route> */}
+            </Route>
 
         </Switch>
     );

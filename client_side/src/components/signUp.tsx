@@ -8,43 +8,74 @@ function SignUp() {
 
     let history = useHistory();
     let { setLoggedIn } = useContext(LogInStatus);
-    let [email, setEmail] = useState<string>();
-    let [name, setName] = useState<string>();
-    let [password, setPassword] = useState<string>();
-    let [confirmPassword, setConfirm] = useState<string>();
+    let [email, setEmail] = useState<string>('');
+    let [name, setName] = useState<string>('');
+    let [password, setPassword] = useState<string>('');
+    let [confirmPassword, setConfirm] = useState<string>('');
     let [showPassword, setShowPassword] = useState(false);
+    let [connectionError, setConnectionError] = useState(false);
     let [error, setError] = useState(false);
 
     function ShowPassword() {
+
         setShowPassword(!showPassword);
+
     };
 
     function handleChange(
+
         e: React.ChangeEvent<HTMLInputElement>,
-        setState: React.Dispatch<React.SetStateAction<string | undefined>>
+        setState: React.Dispatch<React.SetStateAction<string>>
+
     ) {
+
         setState(e.target.value);
+
     };
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+
         e.preventDefault();
+
         if (password !== confirmPassword) {
+
             setError(true);
+
         } else {
-            (e.target as any).reset();
+
             let user = {
                 email,
                 password,
                 name
             };
+
             axios.post('http://localhost:5000/createUser', user)
-                .then(() => {
-                    localStorage.setItem('userData',
-                        JSON.stringify([{ email: user.email, name: user.name }]))
+                .then((res) => {
+
+                    let errorMessage = 'The user with this email already exists!';
+
+                    if (!res.data) {
+                        let error = { message: 'Network Error' }
+                        throw error;
+                    };
+                    if (res.data === errorMessage) {
+                        alert(errorMessage);
+                    } else {
+                        (e.target as any).reset();
+                        localStorage.setItem('userData',
+                            JSON.stringify(res.data));
+                        setLoggedIn(false);
+                        history.push('/');
+                    };
+
                 })
-                .then(() => { setLoggedIn(false) })
-                .then(() => { history.push('/') })
-                .catch(console.log);
+                .catch((e) => {
+
+                    if (e.message === 'Network Error') {
+                        setConnectionError(true);
+                    };
+
+                });
         };
     };
 
@@ -105,6 +136,7 @@ function SignUp() {
                     <button>Login</button>
                 </Link>
             </label>
+            {connectionError ? <p>Unable to connect</p> : null}
         </form >
     )
 };

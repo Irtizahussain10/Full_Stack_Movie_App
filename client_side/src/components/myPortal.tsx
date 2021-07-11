@@ -32,8 +32,16 @@ function MyPortal() {
             name: parsedCredentials[0]?.name
         };
         axios.post('http://localhost:5000/getComments', data)
-            .then((res) => setComments(res.data))
-            .catch(console.log);
+            .then((res) => {
+
+                if (!res.data) {
+                    let error = { message: 'Network Error' };
+                    throw error;
+                };
+
+                setComments(res.data);
+            })
+            .catch((e) => { alert(e) });
     };
 
     if (!parsedCredentials) {
@@ -49,21 +57,29 @@ function MyPortal() {
                 </Link>
                 {
                     !displayComments ?
-                        <button onClick={() => handleDisplay()}>Show Comments</button> :
-                        <button onClick={() => setDisplay(!displayComments)}>Hide Comments</button>
+                        <button onClick={() => handleDisplay()}>
+                            Show Comments
+                        </button> :
+                        <button onClick={() => setDisplay(!displayComments)}>
+                            Hide Comments
+                        </button>
                 }
                 {
                     comments && displayComments ?
                         comments.map((comment, key) => {
                             let d = new Date(comment.date);
                             let date = d.toDateString();
-                            return <p key={key}>
-                                <span>{comment.text}</span>
-                                <Link to={`/${comment.movie_name[0]._id}`}>
-                                    <span>({comment.movie_name[0].title})</span>
-                                </Link>
-                                <span>({date})</span>
-                            </p>
+                            if (!comments[0]) {
+                                return <p>No comments to show</p>
+                            } else {
+                                return <p key={key}>
+                                    <span>{comment.text}</span>
+                                    <Link to={`/${comment.movie_name[0]._id}`}>
+                                        <span>({comment.movie_name[0].title})</span>
+                                    </Link>
+                                    <span>({date})</span>
+                                </p>
+                            }
                         }) : null
                 }
                 <label>{parsedCredentials[0]?.name}</label>

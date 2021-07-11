@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { moviesById } from '../services/moviesApi';
 import { moviesByObjectId } from '../types/types';
 import { LogInStatus } from "../context/LoginContext";
 import { Credentials } from '../types/types';
@@ -18,6 +17,8 @@ function SingleMovie() {
     let [comment, setComment] = useState<string>('');
     let [data, setData] = useState<moviesByObjectId>();
     let [reloadComments, setReload] = useState<boolean>(false);
+    let [isLoading, setLoading] = useState<boolean>(true);
+    let [connectionError, setConnectionFailed] = useState<boolean>(false);
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -35,64 +36,118 @@ function SingleMovie() {
                 email: userCredentials[0]?.email
             };
             axios.post('http://localhost:5000/insertComment', data)
-                .then(() => { setReload(true) })
-                .catch(console.log);
+
+                .then((res) => {
+
+                    if (!res.data) {
+                        let error = { message: 'Network Error' };
+                        alert(error.message);
+                    };
+
+                    setReload(true)
+                })
+
+                .catch((e) => {
+
+                    if (e.message === 'Network Error') {
+
+                        alert('Connection to server failed');
+
+                    };
+
+                });
         };
     };
 
     useEffect(() => {
-        moviesById(id)
-            .then((res) => { setData(res) })
-            .catch(console.log);
+
+        axios.get(`http://localhost:5000/searchMoviesById/${id}`)
+
+            .then((res) => {
+
+                if (!res.data) {
+                    let error = { message: 'Network Error' };
+                    setLoading(false);
+                    throw error;
+                };
+
+                setData(res.data[0] as moviesByObjectId);
+                setLoading(false);
+
+            })
+
+            .catch((e) => {
+
+                if (e.message === 'Network Error') {
+
+                    setLoading(false);
+                    setConnectionFailed(true);
+
+                };
+                console.log(e)
+
+            });
+
     }, [id, reloadComments]);
 
-    if (!data) {
+    if (isLoading) {
+
         return <h1>...Loading</h1>
-    } else {
+
+    }
+
+    else if (connectionError) {
+
+        return <h1>Connection to server failed</h1>
+
+    }
+
+    else {
+
         return (
             <div>
                 <div>
-                    {data.title ? <h4>{data.title}</h4> : null}
+                    {data?.title ? <h4>{data.title}</h4> : null}
                     <h5>
-                        {data.year ? <span>{data.year} </span>
+                        {data?.year ? <span>{data.year} </span>
                             : null}
-                        {data.rated ? <span>{data.rated}</span> : null}
+                        {data?.rated ? <span>{data.rated}</span> : null}
                     </h5>
-                    {data.directors ? data.directors.map((director, index) => {
+                    {data?.directors ? data.directors.map((director, index) => {
                         return <p key={index}>{director}</p>
                     }) : null}
-                    {data.runtime ? <h6>Runtime: {Math.floor(data.runtime / 60)} hr
+                    {data?.runtime ? <h6>Runtime: {Math.floor(data.runtime / 60)} hr
                         {data.runtime % 60} min </h6> : null}
-                    <p>{data.fullplot}</p>
-                    {data.imdb ? <p>
+                    <p>{data?.fullplot}</p>
+                    {data?.imdb ? <p>
                         <strong>Imdb rating: {data.imdb.rating}
                             (from {data.imdb.votes} reviews)</strong>
                     </p> : null}
-                    {data.metacritic ? <p>
+                    {data?.metacritic ? <p>
                         <strong>Metacritic Rating: {data.metacritic}</strong>
                     </p> : null}
-                    {data.tomatoes ? <p>
+                    {data?.tomatoes ? <p>
                         <strong>Tomatoes Rating: {data.tomatoes.viewer.rating}
                             (from {data.tomatoes.viewer.numReviews} reviews)</strong>
                     </p> : null}
                 </div>
                 <div>
-                    {data.poster ? <img src={data.poster} alt='' />
+                    {data?.poster ? <img src={data.poster} alt='' />
                         : <div>Image not found</div>}
-                    {data.genres ? <div>
+                    {data?.genres ? <div>
                         <p><strong>Genres</strong></p>
-                        {data.genres.map((genre, key) => {
+                        {data?.genres.map((genre, key) => {
                             return <Link to={`/genre/${genre}`} key={key}>
                                 <span>{genre} </span>
                             </Link>
                         })}
                     </div> : null}
-                    {data.cast ? <div><p><strong>Cast</strong></p>
+                    {data?.cast ? <div><p><strong>Cast</strong></p>
                         {data.cast.map((name, key) => {
                             return <Link to={`cast/${name}`} key={key}>
                                 <span>{name} </span></Link>
                         })}</div> : null}
-                    {data.writers ? <div><p><strong>Writers</strong></p>
+                    {data?.writers ? <div><p><strong>Writers</strong></p>
                         {data.writers.map((name, key) => {
                             return <span key={key}>{name} </span>
                         })}</div> : null}
@@ -108,7 +163,7 @@ function SingleMovie() {
                             <input type='submit' value='Post Comment' />
                         </form>
                         : <h1>Login to post comment</h1>}
-                    {data.comments[0] ? data.comments.map((comment, key) => {
+                    {data?.comments[0] ? data.comments.map((comment, key) => {
                         return (
                             <div key={key}>
                                 <h6>{comment.name}</h6>
@@ -121,6 +176,7 @@ function SingleMovie() {
                     }) : <p><b>No comments available</b></p>}
                 </div>
             </div>
+
         );
     };
 };

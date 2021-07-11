@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import List from "./List";
-import { moviesByCountry } from '../services/moviesApi';
 import { moviesByPageNumber } from "../types/types";
+import axios from "axios";
 
 interface Params {
     country: string
@@ -14,35 +14,77 @@ function MovieListByCountry() {
     let [page, setPage] = useState<number>(0);
     let [data, setData] = useState<moviesByPageNumber[]>([]);
     let [count, setCount] = useState<number>(0);
+    let [isLoading, setLoading] = useState<boolean>(true);
+    let [connectionFailed, setConnectionFailed] = useState<boolean>(false);
+    let [nothingFound, setNothingFound] = useState<boolean>(false);
 
     useEffect(() => {
-        moviesByCountry(page, country)
+        axios.get(`http://localhost:5000/searchMoviesByCountry/${country}/${page}`)
+
             .then((res) => {
-                let [count, ...movies] = res;
+
+                if (!res.data) {
+                    let error = { message: 'Network Error' };
+                    setLoading(false);
+                    throw error;
+                };
+
+                if (res.data[0] === 0) {
+                    setNothingFound(true);
+                    setLoading(false);
+                };
+
+                let [count, ...movies]: [number, ...moviesByPageNumber[]] = res.data;
                 setData(movies);
                 setCount(count);
+                setLoading(false);
+
             })
-            .catch(console.log);
+
+            .catch((e) => {
+
+                if (e.message === 'Network Error') {
+
+                    setLoading(false);
+                    setConnectionFailed(true);
+
+                };
+
+            });
     }, [page, country]);
 
     function handleClickPrevious() {
+
         if (page === 0) {
             setPage(Math.ceil((count) / 20) - 1)
         } else {
             setPage(page - 1);
-        }
+        };
+
     };
 
     function handleClickNext() {
+
         if (page === Math.ceil((count) / 20) - 1) {
             setPage(0);
         } else {
             setPage(page + 1);
         };
+
     };
 
-    if (!data) {
+    if (isLoading) {
+
         return <h1>...Loading</h1>
+
+    } else if (connectionFailed) {
+
+        return <h1>Failed to connect to server</h1>
+
+    } else if (nothingFound) {
+
+        return <h1>Nothing found against this query</h1>
+
     } else {
         return (
             <List

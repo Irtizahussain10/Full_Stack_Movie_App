@@ -1,14 +1,21 @@
 let comment;
 
 module.exports.connection = async (client) => {
+
     if (comment) {
         return;
     };
-    comment = client.db('sample_mflix').collection('comments');
+
+    comment = client
+        .db('sample_mflix')
+        .collection('comments');
+
 };
 
 module.exports.findComments = async (predicate) => {
+
     try {
+
         let pipeline = [
             {
                 $match: {
@@ -56,29 +63,52 @@ module.exports.findComments = async (predicate) => {
             .toArray();
 
         return comments;
+
     } catch (e) {
-        return 'Not able to find';
+
+        if (e.name === 'MongoNetworkError') {
+            return ['Server lost connection to the internet'];
+        };
+
     };
+
 };
 
 module.exports.deleteComment = async (predicate) => {
+
     try {
+
         let result = await comment
             .deleteOne(predicate);
-        return result.deletedCount.toString();
+
+        return result
+            .deletedCount
+            .toString();
+
     } catch (e) {
-        console.error(e.stack);
-        return 'The delete operation failed!';
+
+        if (e.name === 'MongoNetworkError') {
+            return ['Server lost connection to the internet'];
+        };
+
     };
+
 };
 
 module.exports.insertComment = async (predicate) => {
+
     try {
+
         let result = await comment
             .insertOne(predicate);
+
         return result.insertedId;
+
     } catch (e) {
-        console.error(e.stack);
-        return 'Not able to post comment';
+
+        if (e.name === 'MongoNetworkError') {
+            return ['Server lost connection to the internet'];
+        };
+
     };
 };

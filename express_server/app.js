@@ -37,7 +37,9 @@ MongoClient.connect(uri, {
       console.log(`Listening at http://localhost:${port}`);
     });
   })
-  .catch((e) => {
-    console.error(e);
+  .catch(() => {
     process.exit(1);
   });
+
+  //remove all console.logs
+  //Incase connection error is due to server
