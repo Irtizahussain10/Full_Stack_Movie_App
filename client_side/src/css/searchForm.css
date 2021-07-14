@@ -1,0 +1,31 @@
+.searchBox {
+    color: white;
+    line-height: 30px;
+}
+
+.Field:hover {
+    cursor: pointer;
+}
+
+label:hover {
+    cursor: pointer;
+}
+
+.searchButton {
+    border-radius: 4px;
+    background-color: white;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    padding: 6px;
+    box-shadow: none;
+    color: black
+}
+
+.text {
+    height: 17px;
+}
+
+.text:focus {
+    border: 2px solid white;
+}

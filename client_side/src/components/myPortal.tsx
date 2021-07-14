@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { LogInStatus } from '../context/LoginContext';
 import SearchForm from './searchForm';
 import { Credentials, Comments } from '../types/types';
+import '../css/bar.css';
 
 function MyPortal() {
 
@@ -18,20 +19,27 @@ function MyPortal() {
     }, [userCredentials]);
 
     function handleClick() {
+
         localStorage.removeItem('userData');
         localStorage.setItem('notLoggedIn', JSON.stringify(true));
         setLoggedIn(
-            JSON.parse(localStorage.getItem('notLoggedIn') as string)
+            JSON.parse(localStorage
+                .getItem('notLoggedIn') as string)
         );
+
     };
 
     function handleDisplay() {
+
         setDisplay(!displayComments);
+
         let data = {
             email: parsedCredentials[0]?.email,
             name: parsedCredentials[0]?.name
         };
+
         axios.post('http://localhost:5000/getComments', data)
+
             .then((res) => {
 
                 if (!res.data) {
@@ -40,16 +48,20 @@ function MyPortal() {
                 };
 
                 setComments(res.data);
+
             })
+
             .catch((e) => { alert(e) });
     };
 
     if (!parsedCredentials) {
+
         return <h1>...Loading</h1>
+
     } else {
 
         return (
-            <div>
+            <div className='bar'>
                 <SearchForm />
                 <Link to='/'>
                     <img src='../favicon.ico' alt='mflix' />
@@ -75,9 +87,13 @@ function MyPortal() {
                                 return <p key={key}>
                                     <span>{comment.text}</span>
                                     <Link to={`/${comment.movie_name[0]._id}`}>
-                                        <span>({comment.movie_name[0].title})</span>
+                                        <span>
+                                            ({comment.movie_name[0].title})
+                                        </span>
                                     </Link>
-                                    <span>({date})</span>
+                                    <span>
+                                        ({date})
+                                    </span>
                                 </p>
                             }
                         }) : null

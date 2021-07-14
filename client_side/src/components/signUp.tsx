@@ -52,27 +52,36 @@ function SignUp() {
             axios.post('http://localhost:5000/createUser', user)
                 .then((res) => {
 
-                    let errorMessage = 'The user with this email already exists!';
+                    let errorMessage =
+                        'The user with this email already exists!';
 
                     if (!res.data) {
                         let error = { message: 'Network Error' }
                         throw error;
                     };
+
                     if (res.data === errorMessage) {
+
                         alert(errorMessage);
+
                     } else {
+
                         (e.target as any).reset();
                         localStorage.setItem('userData',
                             JSON.stringify(res.data));
                         setLoggedIn(false);
                         history.push('/');
+
                     };
 
                 })
+
                 .catch((e) => {
 
                     if (e.message === 'Network Error') {
+
                         setConnectionError(true);
+
                     };
 
                 });
@@ -80,6 +89,7 @@ function SignUp() {
     };
 
     return (
+        
         <form onSubmit={handleSubmit}>
             {error ? <p>Oops! Passwords do not match.</p> : null}
             <label>

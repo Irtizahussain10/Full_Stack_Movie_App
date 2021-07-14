@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router';
+import '../css/searchForm.css';
 
 function SearchForm() {
 
@@ -9,84 +10,106 @@ function SearchForm() {
     let [searchText, setText] = useState<string>('Leonardo DiCaprio');
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+
         setParameter(e.target.value);
+
     };
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+
         e.preventDefault();
         setSearch(!displaySearch);
         (e.target as any).reset();
+
         if (parameter === 'genre') {
+
             history.push(`/genre/${searchText}`);
+
         } else if (parameter === 'cast') {
+
             history.push(`/cast/${searchText}`);
+
         } else if (parameter === 'text') {
+
             history.push(`/text/${searchText}`);
+
         };
+
     };
 
     return (
-        <div>
+
+        <div className='searchBox'>
             <button
+                className='searchButton'
                 onClick={() => { setSearch(!displaySearch) }}
             >Search
             </button>
-            {displaySearch ? (
-                <form
-                    name='searchForm'
-                    onSubmit={(handleSubmit)}
-                >
-                    <input
-                        type='text'
-                        required
-                        placeholder='John Ott'
-                        onChange={(e) => { setText(e.target.value) }}
-                    />
-                    <label
-                        htmlFor='genre'
+            <div className='options'>
+                {displaySearch ? (
+                    <form
+                        name='searchForm'
+                        onSubmit={(handleSubmit)}
                     >
                         <input
+                            className='text'
+                            type='text'
                             required
-                            type='radio'
-                            id='genre'
-                            name='searchParameter'
-                            value='genre'
-                            onChange={handleChange}
+                            placeholder='Type your text'
+                            onChange={(e) => { setText(e.target.value) }}
                         />
-                        Genre
-                    </label>
-                    <label
-                        htmlFor='cast'
-                    >
+                        <br />
+                        <label
+                            htmlFor='genre'
+                        >
+                            <input
+                                className='Field'
+                                required
+                                type='radio'
+                                id='genre'
+                                name='searchParameter'
+                                value='genre'
+                                onChange={handleChange}
+                            />
+                            Genre
+                        </label>
+                        <label
+                            htmlFor='cast'
+                        >
+                            <input
+                                className='Field'
+                                required
+                                type='radio'
+                                id='cast'
+                                name='searchParameter'
+                                value='cast'
+                                onChange={handleChange}
+                            />
+                            Cast
+                        </label>
+                        <label
+                            htmlFor='text'
+                        >
+                            <input
+                                className='Field'
+                                required
+                                type='radio'
+                                id='text'
+                                name='searchParameter'
+                                value='text'
+                                onChange={handleChange}
+                            />
+                            Text
+                        </label>
+                        <br />
                         <input
-                            required
-                            type='radio'
-                            id='cast'
-                            name='searchParameter'
-                            value='cast'
-                            onChange={handleChange}
+                            className='searchButton'
+                            type='submit'
+                            value='Submit'
                         />
-                        Cast
-                    </label>
-                    <label
-                        htmlFor='text'
-                    >
-                        <input
-                            required
-                            type='radio'
-                            id='text'
-                            name='searchParameter'
-                            value='text'
-                            onChange={handleChange}
-                        />
-                        Text
-                    </label>
-                    <input
-                        type='submit'
-                        value='Submit'
-                    />
-                </form>
-            ) : null}
+                    </form>
+                ) : null}
+            </div>
         </div>
     )
 };

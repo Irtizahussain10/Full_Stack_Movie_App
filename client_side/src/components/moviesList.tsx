@@ -85,13 +85,11 @@ function MoviesList() {
 
         return (
 
-            <div>
-                <List
-                    data={data}
-                    handleClickPrevious={handleClickPrevious}
-                    handleClickNext={handleClickNext}
-                />
-            </div>
+            <List
+                data={data}
+                handleClickPrevious={handleClickPrevious}
+                handleClickNext={handleClickNext}
+            />
 
         );
     };

@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 export interface moviesByPageNumber {
+
     _id?: string,
     title?: string,
     cast?: string[],
@@ -12,9 +13,11 @@ export interface moviesByPageNumber {
         id: number
     },
     poster?: string
+
 };
 
 export interface moviesByObjectId {
+
     title?: string,
     year?: number,
     rated?: number,
@@ -50,24 +53,32 @@ export interface moviesByObjectId {
     genres?: string[],
     writers?: string[],
     comments: comments[]
+
 };
 
 interface comments {
+
     name: string,
     text: string
+
 }
 
 export interface loginStatus {
+
     notLoggedIn: boolean,
     setLoggedIn: Dispatch<SetStateAction<boolean>>
+
 };
 
 export interface Credentials {
+
     email: string,
     name: string
+
 };
 
 export interface Comments {
+
     _id: string,
     text: string,
     date: string,
@@ -77,4 +88,5 @@ export interface Comments {
             title: string
         }
     ],
+
 };

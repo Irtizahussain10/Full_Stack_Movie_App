@@ -35,7 +35,8 @@ function MovieListByGenre() {
                     setLoading(false);
                 };
 
-                let [count, ...movies]: [number, ...moviesByPageNumber[]] = res.data;
+                let [count, ...movies]
+                    : [number, ...moviesByPageNumber[]] = res.data;
                 setCount(count);
                 setData(movies);
                 setLoading(false);
@@ -55,19 +56,23 @@ function MovieListByGenre() {
     }, [page, genre]);
 
     function handleClickPrevious() {
+
         if (page === 0) {
             setPage(Math.ceil((count) / 20) - 1)
         } else {
             setPage(page - 1);
         };
+
     };
 
     function handleClickNext() {
+
         if (page === Math.ceil((count) / 20) - 1) {
             setPage(0);
         } else {
             setPage(page + 1);
         };
+
     };
 
     if (isLoading) {

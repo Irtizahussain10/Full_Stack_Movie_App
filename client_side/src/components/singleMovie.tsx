@@ -21,13 +21,20 @@ function SingleMovie() {
     let [connectionError, setConnectionFailed] = useState<boolean>(false);
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+
         e.preventDefault();
+
         if (!comment) {
+
             alert('Cannot post empty comment!');
+
         } else {
+
             (e.target as any).reset();
+
             let userCredentials: Credentials[] = JSON
                 .parse(localStorage.getItem('userData') as string);
+
             let data = {
                 text: comment,
                 date: new Date(),
@@ -35,6 +42,7 @@ function SingleMovie() {
                 name: userCredentials[0]?.name,
                 email: userCredentials[0]?.email
             };
+
             axios.post('http://localhost:5000/insertComment', data)
 
                 .then((res) => {
@@ -44,7 +52,7 @@ function SingleMovie() {
                         alert(error.message);
                     };
 
-                    setReload(true)
+                    setReload(true);
                 })
 
                 .catch((e) => {
@@ -84,7 +92,7 @@ function SingleMovie() {
                     setConnectionFailed(true);
 
                 };
-                console.log(e)
+                console.log(e);
 
             });
 
@@ -94,15 +102,11 @@ function SingleMovie() {
 
         return <h1>...Loading</h1>
 
-    }
-
-    else if (connectionError) {
+    } else if (connectionError) {
 
         return <h1>Connection to server failed</h1>
 
-    }
-
-    else {
+    } else {
 
         return (
             <div>
@@ -113,22 +117,28 @@ function SingleMovie() {
                             : null}
                         {data?.rated ? <span>{data.rated}</span> : null}
                     </h5>
-                    {data?.directors ? data.directors.map((director, index) => {
-                        return <p key={index}>{director}</p>
-                    }) : null}
-                    {data?.runtime ? <h6>Runtime: {Math.floor(data.runtime / 60)} hr
-                        {data.runtime % 60} min </h6> : null}
+                    {data?.directors ? data.directors
+                        .map((director, index) => {
+                            return <p key={index}>{director}</p>
+                        }) : null}
+                    {data?.runtime ?
+                        <h6>Runtime: {Math.floor(data.runtime / 60)} hr
+                            {data.runtime % 60} min </h6> : null}
                     <p>{data?.fullplot}</p>
                     {data?.imdb ? <p>
                         <strong>Imdb rating: {data.imdb.rating}
                             (from {data.imdb.votes} reviews)</strong>
                     </p> : null}
                     {data?.metacritic ? <p>
-                        <strong>Metacritic Rating: {data.metacritic}</strong>
+                        <strong>
+                            Metacritic Rating: {data.metacritic}
+                        </strong>
                     </p> : null}
                     {data?.tomatoes ? <p>
-                        <strong>Tomatoes Rating: {data.tomatoes.viewer.rating}
-                            (from {data.tomatoes.viewer.numReviews} reviews)</strong>
+                        <strong>
+                            Tomatoes Rating: {data.tomatoes.viewer.rating}
+                            (from {data.tomatoes.viewer.numReviews} reviews)
+                        </strong>
                     </p> : null}
                 </div>
                 <div>
@@ -147,7 +157,8 @@ function SingleMovie() {
                             return <Link to={`cast/${name}`} key={key}>
                                 <span>{name} </span></Link>
                         })}</div> : null}
-                    {data?.writers ? <div><p><strong>Writers</strong></p>
+                    {data?.writers ? <div>
+                        <p><strong>Writers</strong></p>
                         {data.writers.map((name, key) => {
                             return <span key={key}>{name} </span>
                         })}</div> : null}
@@ -158,22 +169,22 @@ function SingleMovie() {
                                 onChange={(e) => { setComment(e.target.value) }}
                                 rows={4} cols={80} maxLength={350}
                                 placeholder=
-                                'Post your comment her (should not exceed 350 characters)'
+                                'Post your comment here (should not exceed 350 characters)'
                             > </textarea>
                             <input type='submit' value='Post Comment' />
                         </form>
                         : <h1>Login to post comment</h1>}
-                    {data?.comments[0] ? data.comments.map((comment, key) => {
-                        return (
-                            <div key={key}>
-                                <h6>{comment.name}</h6>
-                                <p>
-                                    <span>{comment.text}</span>
-                                    <button>x</button>
-                                </p>
-                            </div>
-                        )
-                    }) : <p><b>No comments available</b></p>}
+                    {data?.comments[0] ? data.comments
+                        .map((comment, key) => {
+                            return (
+                                <div key={key}>
+                                    <h6>{comment.name}</h6>
+                                    <p>
+                                        <span>{comment.text}</span>
+                                    </p>
+                                </div>
+                            )
+                        }) : <p><b>No comments available</b></p>}
                 </div>
             </div>
 

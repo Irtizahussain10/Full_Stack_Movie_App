@@ -30,7 +30,7 @@ function MovieListByCast() {
 
                 if (!res.data[0]) {
                     setNothingFound(true);
-                }
+                };
 
                 setData(res.data as moviesByPageNumber[]);
                 setLoading(false);
@@ -65,7 +65,9 @@ function MovieListByCast() {
 
         return (
             <div>
-                <List data={data} />
+                <List
+                    data={data}
+                />
             </div>
         );
 

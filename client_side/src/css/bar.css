@@ -1,0 +1,22 @@
+.bar {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 10px;
+    line-height: 30px;
+    font-size: 18px;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+    box-shadow: 5px 5px 5px 5px silver;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.label {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}

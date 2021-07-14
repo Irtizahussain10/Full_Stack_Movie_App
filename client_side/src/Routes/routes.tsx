@@ -21,13 +21,13 @@ function Routes() {
                 <MoviesList />
             </Route>
 
-            {notLoggedIn ? <Route exact path='/userLogin'>
-                <LogIn />
-            </Route> : null}
+            <Route exact path='/userLogin'>
+                {notLoggedIn ? <LogIn /> : <MoviesList />}
+            </Route>
 
-            {notLoggedIn ? <Route exact path='/SignUp'>
-                <SignUp />
-            </Route> : null}
+            <Route exact path='/SignUp'>
+                {notLoggedIn ? <SignUp /> : <MoviesList />}
+            </Route>
 
             <Route exact path='/movieByID/:id'>
                 <SingleMovie />
@@ -48,7 +48,7 @@ function Routes() {
             <Route exact path='/text/:text'>
                 <SearchResults />
             </Route>
-            
+
             <Route exact path='/*'>
                 <h1>Oops! the page is not available</h1>
             </Route>

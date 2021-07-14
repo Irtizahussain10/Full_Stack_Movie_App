@@ -35,7 +35,8 @@ function SearchResults() {
                     setLoading(false);
                 };
 
-                let [count, ...movies]: [number, ...moviesByPageNumber[]] = res.data;
+                let [count, ...movies]
+                    : [number, ...moviesByPageNumber[]] = res.data;
                 setData(movies);
                 setCount(count);
                 setLoading(false);

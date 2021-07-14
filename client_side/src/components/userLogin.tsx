@@ -13,23 +13,31 @@ function LogIn() {
     let [password, setPassword] = useState<string>('');
 
     function ShowPassword() {
+
         setShowPassword(!showPassword);
+
     };
 
     function handleChange(
         e: React.ChangeEvent<HTMLInputElement>,
         setState: React.Dispatch<React.SetStateAction<string>>
     ) {
+
         setState(e.target.value);
+
     };
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+
         e.preventDefault();
+
         let user = {
             email,
             password
         };
+
         axios.post('http://localhost:5000/userLogin', user)
+
             .then((res) => {
 
                 if (!res.data) {
@@ -47,11 +55,14 @@ function LogIn() {
                 } else if (!res.data[0]) {
                     alert('No such account exists!')
                 };
+
             })
             .catch((e) => {
+
                 if (e.message === 'Network Error') {
                     setConnectionError(true);
-                }
+                };
+
             });
     };
 
